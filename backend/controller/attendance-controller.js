@@ -1,7 +1,7 @@
-import attendance from "../model/attendance";
+import Attendance from "../model/attendance";
 
 
-//add new attendance
+// Create a new attendance record
 const createAttendance = async (req, res) => {
     try {
       const { employeeId, date, clockIn, clockOut } = req.body;
@@ -105,21 +105,21 @@ const createAttendance = async (req, res) => {
     }
   };
 
-
   // Delete an attendance record
 const deleteAttendance = async (req, res) => {
-    try {
-      const attendance = await Attendance.findByIdAndDelete(req.params.id);
-  
-      if (!attendance) {
-        return res.status(404).json({ error: 'Attendance record not found' });
-      }
-  
-      res.json({ message: 'Attendance record deleted successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  };
-  
+  try {
+    const attendance = await Attendance.findByIdAndDelete(req.params.id);
 
+    if (!attendance) {
+      return res.status(404).json({ error: 'Attendance record not found' });
+    }
+
+    res.json({ message: 'Attendance record deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+export { createAttendance, getAllAttendance, getAttendanceById, updateAttendance, deleteAttendance };

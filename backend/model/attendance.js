@@ -1,8 +1,8 @@
-// models/Attendance.js
+
 import mongoose from 'mongoose';
 import autoIncrement from 'mongoose-auto-increment';
 
-const mongoose = require('mongoose');
+
 
 const leaveTypeOptions = ['Vacation', 'Sick', 'Personal', 'Unpaid'];
 
