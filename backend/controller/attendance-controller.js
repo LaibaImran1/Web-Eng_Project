@@ -1,5 +1,5 @@
 import Attendance from "../model/Attendance.js";
-
+import autoIncrement from "mongoose-auto-increment";
 
 // Create a new attendance record
 const createAttendance = async (req, res) => {
@@ -20,6 +20,7 @@ const createAttendance = async (req, res) => {
       }
   
       const attendance = new Attendance({
+       
         employeeId,
         date,
         clockIn,
@@ -27,6 +28,7 @@ const createAttendance = async (req, res) => {
         leaveType,
         hoursWorked,
       });
+      
   
       const newAttendance = await attendance.save();
   

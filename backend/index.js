@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import Routes from './server/route.js';
 import Connection from './database/db.js';
-
+import autoIncrement from "mongoose-auto-increment";
 const app = express();
 
 dotenv.config();
