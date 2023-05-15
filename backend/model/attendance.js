@@ -25,8 +25,8 @@ attendanceSchema.pre('save', function (next) {
   next();
 });
 autoIncrement.initialize(mongoose.connection);
-attendanceSchema.plugin(autoIncrement.plugin, 'attendance');
-const attendance = mongoose.model('attendance', attendanceSchema);
+attendanceSchema.plugin(autoIncrement.plugin, 'Attendance');
+const Attendance = mongoose.model('Attendance', attendanceSchema);
 
-export default attendance;
+export default Attendance;
 

@@ -1,4 +1,4 @@
-import Attendance from "../model/attendance";
+import Attendance from "../model/Attendance.js";
 
 
 // Create a new attendance record
@@ -122,4 +122,17 @@ const deleteAttendance = async (req, res) => {
 };
 
 
-export { createAttendance, getAllAttendance, getAttendanceById, updateAttendance, deleteAttendance };
+export {
+  getAllAttendance,
+  createAttendance,
+  getAttendanceById,
+  updateAttendance,
+  deleteAttendance
+};
+
+
+
+
+
+
+
