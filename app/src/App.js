@@ -1,33 +1,23 @@
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Routes } from 'react-router-dom';
+import AttendanceListScreen from './screens/AttendanceListScreen';
+import AttendanceCreateScreen from './screens/AttendanceCreateScreen';
 
-
-import EditAttendance from './Component/EditAttendance';
-import NavBar from './Component/NavBar';
-import NotFound from './Component/NotFound'; 
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AllAttendance from './Component/AllAttendance';
-import AddAttendance from './Component/AddAttendace';
-
-import EditAttendance from './Component/EditAttendance';
-import AddAttendance from './Component/AddAttendance';
-import AllAttendance from './Component/AllAttendance';
-import NotFound from './Component/NotFound';
-import NavBar from './Component/NavBar';
-
+import AttendanceEditScreen from './screens/AttendanceEditScreen';
+import HomeScreen from './screens/HomeScreen';
 
 function App() {
   return (
-    <BrowserRouter>
-      <NavBar />
+    <Router>
       <Routes>
-    
-        <Route path="all" element={<AllAttendance /> } />
-        <Route path="/add" element={<AddAttendance />} />
-        <Route path="/edit/:id" element={<EditAttendance/>} />
-        <Route path='/*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+        <Route path="/" element={<HomeScreen />} />
+          <Route  path="/attendance" element={<AttendanceListScreen />} />
+          <Route  path="/attendance/create" element={<AttendanceCreateScreen />} />
+         
+          <Route  path="/attendance/:id/edit" element={<AttendanceEditScreen />} />
+        </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,21 +1,68 @@
 import axios from 'axios';
 
-// const usersUrl = 'http://localhost:3003/users';
-const usersUrl = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:8080'; 
 
-export const getAttendance = async (id) => {
-    id = id || '';
-    return await axios.get(`${usersUrl}/${id}`);
-}
+// Fetches attendance details by ID
+export const fetchAttendanceDetails = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/attendance/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch attendance details');
+  }
+};
 
-export const addAttendance = async (user) => {
-    return await axios.post(`${usersUrl}/add`, user);
-}
+// Fetches the list of attendance records
+export const fetchAttendanceList = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/attendance`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch attendance list');
+  }
+};
 
+// Creates a new attendance record
+export const addAttendance = async (attendanceData) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/attendance/add`, attendanceData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to create attendance');
+  }
+};
+
+// Updates an existing attendance record
+export const editAttendance = async (id, attendanceData) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/attendance/${id}`, attendanceData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update attendance');
+  }
+};
+//delete existing attendance record
 export const deleteAttendance = async (id) => {
-    return await axios.delete(`${usersUrl}/${id}`);
-}
+    try {
+        const response = await axios.delete(`${BASE_URL}/attendance/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to delete attendance');
+    }
+    }
 
-export const editAttendance = async (id, user) => {
-    return await axios.put(`${usersUrl}/${id}`, user)
-}
+    //get attendace
+    export const getAttendance = async (id) => {
+        try {
+            const response = await axios.get(`${BASE_URL}/attendance/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw new Error('Failed to get attendance');
+        }
+        }
