@@ -1,0 +1,52 @@
+{
+	"info": {
+		"_postman_id": "91ebba75-238d-4628-b029-544952024186",
+		"name": "web project backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all attendance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/6462364b2139b83b1bf4f445",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"6462364b2139b83b1bf4f445"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new attendance",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get attendance by id",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "delete attendance by id",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
