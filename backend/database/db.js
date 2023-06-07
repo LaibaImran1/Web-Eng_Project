@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import autoIncrement from "mongoose-auto-increment";
+import mongoose from 'mongoose';
 
-const connection = async () => {
-    const URL = "mongodb+srv://i200760:khadija121@project.ehvgk4g.mongodb.net/?retryWrites=true&w=majority";
+const Connection = async (username, password) => {
+    const URL =    "mongodb+srv://shaf:shafiq@cluster0.rbvea9m.mongodb.net/test"
+
     try {
       
 
@@ -13,4 +13,4 @@ const connection = async () => {
     }
 }
 
-export default connection;
+export default Connection;

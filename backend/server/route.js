@@ -1,13 +1,12 @@
 import express from 'express';
-import{getAllAttendance,createAttendance,getAttendanceById,  deleteAttendance, updateAttendance} from '../controller/attendance-controller.js';
+import { deleteAttendance, addAttendance,getAttendance,getAttendanceById,editAttendance } from '../controller/attendance-controller.js';
+
 const router = express.Router();
 
-router.get('/', getAllAttendance);
-router.post('/add', createAttendance);
+router.get('/', getAttendance);
+router.post('/add', addAttendance);
 router.get('/:id', getAttendanceById);
+router.put('/:id', editAttendance);
 router.delete('/:id', deleteAttendance);
-router.put('/:id', updateAttendance);
-
-
 
 export default router;

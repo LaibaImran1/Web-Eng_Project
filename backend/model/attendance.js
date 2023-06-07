@@ -1,33 +1,25 @@
 import mongoose from 'mongoose';
+import autoIncrement from 'mongoose-auto-increment';
 
-const leaveTypeOptions = ['Vacation', 'Sick', 'Personal', 'Unpaid'];
-
-const attendanceSchema = new mongoose.Schema({
- 
-  employeeId: { type: String, required: true },
-  date: { type: Date, required: true },
-  clockIn: { type: Date },
-  clockOut: { type: Date },
-  leaveType: {
-    type: String,
-    enum: leaveTypeOptions,
-    required: function () {
-      return this.hoursWorked < 8;
-    }
-  },
-  hoursWorked: { type: Number, default: 0 },
-  
-},
-{collection: 'Attendance' });
-
-attendanceSchema.pre('save', function (next) {
-  if (this.clockIn && this.clockOut) {
-    const milliseconds = this.clockOut - this.clockIn;
-    this.hoursWorked = milliseconds / (1000 * 60 * 60);
-  }
-  next();
+// how our document look like
+const userSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    datetime: { // Updated field name from 'username' to 'datetime'
+        type: Date, // Assuming datetime is a Date type
+        required: true,
+    },
+    attendance: {
+        type: String,
+        required: true,
+    },
 });
 
-const Attendance = mongoose.model('Attendance', attendanceSchema);
+autoIncrement.initialize(mongoose.connection);
+userSchema.plugin(autoIncrement.plugin, 'Attendance');
+// we need to turn it into a model
+const postAttendance = mongoose.model('Attendance', userSchema);
 
-export default Attendance;
+export default postAttendance;
