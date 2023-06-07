@@ -1,0 +1,23 @@
+{
+  "user": [
+    {
+      "name": "Laiba",
+      "username": "LAIBA",
+      "attendance" : "Absent",
+     
+      "id": 1
+    },
+    {
+      "name": "Noor Ul Huda",
+      "username": "NOORI",
+      "attendance" : "Absent",
+      "id": 2
+    },
+    {
+      "name": "Maheen Imran",
+      "username": "Maheen",
+      "attendance" : "Present",
+      "id": 5
+    }
+  ]
+}
