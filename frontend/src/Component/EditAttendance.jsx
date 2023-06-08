@@ -1,27 +1,53 @@
 import { useState, useEffect } from 'react';
-import { FormGroup, FormControl, InputLabel, Select, MenuItem, Button, styled, Typography, Input, TextField } from '@mui/material';
+import { FormGroup, FormControl, InputLabel, Select, MenuItem, Button, styled, Typography, createTheme, ThemeProvider } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAttendance, editAttendance } from '../Service/api';
-
+import editpage from '../Assets/Images/editpage.png';
 const initialValue = {
-  name: '',
-  datetime: '',
   attendance: ''
 };
 
 const Container = styled(FormGroup)`
   width: 50%;
   margin: 5% auto;
-  & > div {
-    margin-top: 20px;
-  }
+  padding: 20px;
+  border: 2px solid #a599ea;
+  border-radius: 8px;
+`;
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#a599ea',
+    },
+  },
+  typography: {
+    fontFamily: 'Arial, sans-serif',
+  },
+});
+
+const StyledInputLabel = styled(InputLabel)`
+ 
+  padding: 16px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 20px;
+`;
+
+const StyledButton = styled(Button)`
+  background-color: #a599ea;
+  color: white;
+  margin-top: 16px;
+  border-radius: 4px;
+  padding: 8px 16px;
 `;
 
 const EditAttendance = () => {
   const [attendance, setAttendance] = useState(initialValue);
-  const { name, datetime, attendance: selectedAttendance } = attendance;
+  const { attendance: selectedAttendance } = attendance;
   const { id } = useParams();
-  console.log(id);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +57,7 @@ const EditAttendance = () => {
   const loadAttendanceDetails = async () => {
     try {
       const response = await getAttendance(id);
-      setAttendance(response.data);
+      setAttendance({ attendance: response.data.attendance });
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +65,8 @@ const EditAttendance = () => {
 
   const editAttendanceDetails = async () => {
     try {
-      const response = await editAttendance(id, attendance);
+      const updatedAttendance = { attendance: selectedAttendance };
+      const response = await editAttendance(id, updatedAttendance);
       navigate('/all');
     } catch (error) {
       console.log(error);
@@ -47,57 +74,40 @@ const EditAttendance = () => {
   };
 
   const onValueChange = (e) => {
-    setAttendance({ ...attendance, [e.target.name]: e.target.value });
+    setAttendance({ attendance: e.target.value });
   };
 
   return (
-    <div data-testid="EditAttendance">
-      <Container injectFirst>
-        <Typography variant="h4">Edit Information</Typography>
-        <FormControl>
-          <InputLabel htmlFor="name-input">Name</InputLabel>
-          <Input
-            onChange={onValueChange}
-            name="name"
-            value={name}
-            id="name-input"
-            aria-describedby="name-helper-text"
-          />
-        </FormControl>
-        <FormControl>
-          <TextField
-            onChange={onValueChange}
-            name="datetime"
-            value={datetime}
-            id="datetime-input"
-            label="Date/Time"
-            type="datetime-local"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </FormControl>
-        <FormControl>
-          <InputLabel htmlFor="attendance-input">Attendance</InputLabel>
-          <Select
-            onChange={onValueChange}
-            name="attendance"
-            value={selectedAttendance}
-            id="attendance-input"
-            aria-describedby="attendance-helper-text"
-            style={{ minWidth: 120 }}
-          >
-            <MenuItem value="Present">Present</MenuItem>
-            <MenuItem value="Absent">Absent</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl>
-          <Button sx={{ backgroundColor: '#a599ea' }} variant="contained" color="primary" onClick={editAttendanceDetails}>
+    <ThemeProvider theme={theme}>
+      <div data-testid="EditAttendance">
+        <Container>
+          <Typography variant="h4" style={{ marginBottom: '16px' }}>
             Edit Attendance
-          </Button>
-        </FormControl>
-      </Container>
-    </div>
+          </Typography>
+          <FormControl>
+            <StyledInputLabel htmlFor="attendance-input">Attendance</StyledInputLabel>
+            <Select
+              onChange={onValueChange}
+              name="attendance"
+              value={selectedAttendance}
+              id="attendance-input"
+              aria-describedby="attendance-helper-text"
+              style={{ minWidth: 120, marginBottom: '16px' }}
+            >
+              <MenuItem value="Present">Present</MenuItem>
+              <MenuItem value="Absent">Absent</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <StyledButton variant="contained" color="primary" onClick={editAttendanceDetails}>
+              Edit Attendance
+            </StyledButton>
+          </FormControl>
+        </Container>
+        <img src={editpage}  style={{width: '30%', margin: '80px 0 0 35%'}}/>
+      </div>
+    </ThemeProvider>
+    
   );
 };
 

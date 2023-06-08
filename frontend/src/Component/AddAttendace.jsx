@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const initialValue = {
   name: '',
-  datetime: '',
+  date: new Date().toISOString().split('T')[0],
+  clockIn: '',
+  clockOut: '',
   attendance: ''
 };
 
@@ -17,21 +19,61 @@ const Container = styled(FormGroup)`
   }
 `;
 
+const StyledButton = styled(Button)`
+  background-color: #a599ea;
+  color: #FFFFFF;
+`;
+
 const AddAttendance = () => {
   const [attendance, setAttendance] = useState(initialValue);
-  const { name, datetime, attendance: selectedAttendance } = attendance;
+  const { name, date, clockIn, clockOut, attendance: selectedAttendance } = attendance;
 
   let navigate = useNavigate();
 
   const onValueChange = (e) => {
-    setAttendance({ ...attendance, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'attendance' && value === 'Absent') {
+      setAttendance({ ...attendance, [name]: value, clockIn: '00:00', clockOut: '00:00' });
+    } else {
+      setAttendance({ ...attendance, [name]: value });
+    }
+  };
+
+  const calculateHoursWorked = () => {
+    if (clockIn && clockOut && clockIn < clockOut) {
+      const [startHour, startMinute] = clockIn.split(':');
+      const [endHour, endMinute] = clockOut.split(':');
+
+      const totalMinutes = (endHour - startHour) * 60 + (endMinute - startMinute);
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      return `${hours} hours ${minutes} minutes`;
+    }
+    return '';
   };
 
   const addAttendanceDetails = async () => {
-    await addAttendance(attendance);
+    const hoursWorked = calculateHoursWorked();
+    if (!hoursWorked) {
+      console.warn('Cannot calculate hours worked. Please make sure the clock-in and clock-out times are set correctly.');
+      return;
+    }
+  
+    let attendanceDetails = {
+      name,
+      date,
+      attendance: selectedAttendance,
+      hoursWorked,
+      clockIn: selectedAttendance === 'Absent' ? '00:00' : clockIn,
+      clockOut: selectedAttendance === 'Absent' ? '00:00' : clockOut
+    };
+  
+    await addAttendance(attendanceDetails);
     navigate('/all');
   };
-
+  
   return (
     <div data-testid="AddAttendance1">
       <Container>
@@ -43,11 +85,11 @@ const AddAttendance = () => {
         <FormControl>
           <TextField
             onChange={onValueChange}
-            name="datetime"
-            value={datetime}
-            id="datetime-input"
-            label="Date/Time"
-            type="datetime-local"
+            name="date"
+            value={date}
+            id="date-input"
+            label="Date"
+            type="date"
             InputLabelProps={{
               shrink: true,
             }}
@@ -64,13 +106,42 @@ const AddAttendance = () => {
             style={{ minWidth: 120 }}
           >
             <MenuItem value="Present">Present</MenuItem>
-            <MenuItem value="Absent">Absent</MenuItem>
+            <MenuItem value="Leave"> Leave</MenuItem>
+            <MenuItem value="Absent"> Absent</MenuItem>
           </Select>
         </FormControl>
         <FormControl>
-          <Button variant="contained" color="primary" onClick={addAttendanceDetails}>
+          <TextField
+            onChange={onValueChange}
+            name="clockIn"
+            value={clockIn}
+            id="clockIn-input"
+            label="Clock In"
+            type="time"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            disabled={selectedAttendance === 'Absent'}
+          />
+        </FormControl>
+        <FormControl>
+          <TextField
+            onChange={onValueChange}
+            name="clockOut"
+            value={clockOut}
+            id="clockOut-input"
+            label="Clock Out"
+            type="time"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            disabled={selectedAttendance === 'Absent'}
+          />
+        </FormControl>
+        <FormControl>
+          <StyledButton variant="contained" color="primary" onClick={addAttendanceDetails}>
             Add Attendance
-          </Button>
+          </StyledButton>
         </FormControl>
       </Container>
     </div>

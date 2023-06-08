@@ -1,32 +1,52 @@
-
-import { AppBar, Toolbar, styled } from '@mui/material';
-
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-
-const Header = styled(AppBar)`
-    background: #111111;
-`;
-    
-const Tabs = styled(NavLink)`
-    color: #FFFFFF;
-    margin-right: 20px;
-    text-decoration: none;
-    font-size: 20px;
-`;
+const navLinks = [
+  { to: '/', text: 'EMP', icon: '🏠' },
+  { to: '/all', text: 'View Attendance', icon: '👁️' },
+  { to: '/add', text: 'Mark Attendance', icon: '➕' },
+];
 
 const NavBar = () => {
-    return (
-       
-        <Header position="static" data-testid="NavBar">
-            <Toolbar>
-                <Tabs to="./" exact>EMP</Tabs>
-                <Tabs to="all" exact>View Attendance</Tabs>
-                <Tabs to="add" exact>Mark Attendance</Tabs>
-            </Toolbar>
-        </Header>
-        
-    )
-}
+  const navStyle = {
+    background: '#a599ea',
+    padding: '10px',
+    fontFamily: 'Poppins, sans-serif',
+  };
+
+  const linkStyle = {
+    color: '#FFFFFF',
+    marginRight: '20px',
+    textDecoration: 'none',
+    fontSize: '20px',
+    transition: 'color 0.3s ease-in-out',
+  };
+
+  const activeLinkStyle = {
+    fontWeight: 'bold',
+  };
+
+  return (
+    <nav style={navStyle}>
+      {navLinks.map((link) => (
+        <NavLink
+          key={link.to}
+          to={link.to}
+          exact
+          style={linkStyle}
+          activeStyle={activeLinkStyle}
+          onMouseEnter={(e) => {
+            e.target.style.color = '#a599ea';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.color = '#FFFFFF';
+          }}
+        >
+          {link.icon} {link.text}
+        </NavLink>
+      ))}
+    </nav>
+  );
+};
 
 export default NavBar;
