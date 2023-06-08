@@ -1,25 +1,38 @@
 import mongoose from 'mongoose';
 import autoIncrement from 'mongoose-auto-increment';
 
-// how our document look like
+// How our document looks like
 const userSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    datetime: { // Updated field name from 'username' to 'datetime'
-        type: Date, // Assuming datetime is a Date type
-        required: true,
-    },
-    attendance: {
-        type: String,
-        required: true,
-    },
+  name: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  clockIn: {
+    type: String,
+    required: true,
+  },
+  clockOut: {
+    type: String,
+    required: true,
+  },
+
+  attendance: {
+    type: String,
+    required: true,
+},
+hoursWorked: {
+    type: String,
+    required: true,
+  },
 });
 
 autoIncrement.initialize(mongoose.connection);
 userSchema.plugin(autoIncrement.plugin, 'Attendance');
-// we need to turn it into a model
+// We need to turn it into a model
 const postAttendance = mongoose.model('Attendance', userSchema);
 
 export default postAttendance;

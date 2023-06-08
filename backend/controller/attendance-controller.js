@@ -1,3 +1,4 @@
+
 import Attendance from "../model/Attendance.js";
 
 // Get all attendance records
@@ -10,18 +11,32 @@ export const getAttendance = async (request, response) => {
   }
 };
 
-// Save attendance in database
-export const addAttendance = async (request, response) => {
-  const attendanceData = request.body;
-  const newAttendance = new Attendance(attendanceData);
-
+export const addAttendance = async (req, res) => {
   try {
+    const { name, date, clockIn, clockOut, attendance, hoursWorked } = req.body;
+
+  
+
+    // Create a new attendance record
+    const newAttendance = new Attendance({
+      name,
+      date,
+      clockIn,
+      clockOut,
+      attendance,
+      hoursWorked,
+    });
+
+    // Save the attendance record to the database
     await newAttendance.save();
-    response.status(201).json(newAttendance);
+
+    res.status(201).json({ message: 'Attendance added successfully' });
   } catch (error) {
-    response.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 export const getAttendanceById = async (request, response) => {
   const attendanceId = request.params.id;
